@@ -1,9 +1,10 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, Inject, OnInit,inject } from '@angular/core';
 import { FormBuilder,FormGroup,Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import{ EstadoService } from '../../servicios/estado-service';
 import { Estado } from '../../interfaces/estado';
+
 
 @Component({
   selector: 'app-dialogo-insertar-editar-estado',
@@ -24,6 +25,7 @@ export class DialogoInsertarEditarEstado implements OnInit{
     private fb:FormBuilder,
     private snackBar:MatSnackBar,
     private estadoServicio:EstadoService
+    @Inject(MAT_DIALOG_DATA) public dataEditarEstado: Estado
   ){
 
     this.formEstado= this.fb.group({
