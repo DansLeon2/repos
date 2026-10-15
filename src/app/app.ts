@@ -1,7 +1,7 @@
-import { AfterViewInit,Component, signal,ViewChild, OnInit,Inject } from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatButtonModule} from '@angular/material/button';
+import { AfterViewInit, Component, signal, ViewChild, OnInit, Inject } from '@angular/core';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MatDialog,
   MatDialogActions,
@@ -10,12 +10,9 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 
-
 import { Estado } from './interfaces/estado'; 
 import { EstadoService } from './servicios/estado-service'; 
 import { DialogoInsertarEditarEstado } from './Dialogo/dialogo-insertar-editar-estado/dialogo-insertar-editar-estado';
-{DialogoInsertarEditarEstado}
-
 
 @Component({
   selector: 'app-root',
@@ -23,13 +20,11 @@ import { DialogoInsertarEditarEstado } from './Dialogo/dialogo-insertar-editar-e
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App implements AfterViewInit, OnInit{
-
-  
+export class App implements AfterViewInit, OnInit {
 
   protected readonly title = signal('FrontEstado');
 
-  constructor(private estadoService:EstadoService, public dialog: MatDialog){}
+  constructor(private estadoService: EstadoService, public dialog: MatDialog) {}
 
   //readonly dialog = inject(MatDialog);
 
@@ -50,21 +45,35 @@ export class App implements AfterViewInit, OnInit{
     this.ListarEstados();
   }
 
-  dialogoInsertarEditarEstado(){
-    this.dialog.open(DialogoInsertarEditarEstado).disableClose(true),
-    width: '350px'
-    }).afterClosed().subscribe(resultado=>{
-      if(resultado==="creado"){
+  dialogoInsertarEditarEstado() {
+    this.dialog.open(DialogoInsertarEditarEstado, {
+      disableClose: true,
+      width: '350px'
+    }).afterClosed().subscribe(resultado => {
+      if (resultado === "creado") {
         this.ListarEstados();
       }
-  });
-}
+    });
+  }
 
+  editarEstado(estado: Estado) {
+    this.dialog.open(DialogoInsertarEditarEstado, {
+      disableClose: true,
+      width: '350px',
+      data: estado
+    }).afterClosed().subscribe(resultado => {
+      if (resultado === "actualizado") {
+        this.ListarEstados();
+      }
+    });
+  }
 
-  ListarEstados(){
-    this.estadoService.listarEstados().subscribe({next:(listaEstados:Estado[])=>{
-      
-      this.dataSourceEstado.data = listaEstados;  
-    },error:(error)=>console.error(error)});
+  ListarEstados() {
+    this.estadoService.listarEstados().subscribe({
+      next: (listaEstados: Estado[]) => {
+        this.dataSourceEstado.data = listaEstados;  
+      },
+      error: (error) => console.error(error)
+    });
   }
 }
