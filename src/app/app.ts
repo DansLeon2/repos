@@ -62,7 +62,7 @@ export class App implements AfterViewInit, OnInit {
       width: '350px',
       data: estado
     }).afterClosed().subscribe(resultado => {
-      if (resultado === "actualizado") {
+      if (resultado === "editado") {
         this.ListarEstados();
       }
     });
