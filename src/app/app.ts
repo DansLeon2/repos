@@ -50,6 +50,17 @@ export class App implements AfterViewInit, OnInit{
     this.ListarEstados();
   }
 
+  dialogoInsertarEditarEstado(){
+    this.dialog.open(DialogoInsertarEditarEstado).disableClose(true),
+    width: '350px'
+    }).afterClosed().subscribe(resultado=>{
+      if(resultado==="creado"){
+        this.ListarEstados();
+      }
+  });
+}
+
+
   ListarEstados(){
     this.estadoService.listarEstados().subscribe({next:(listaEstados:Estado[])=>{
       
