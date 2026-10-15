@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit,inject } from '@angular/core';
+import { Component, Inject, OnInit, } from '@angular/core';
 import { FormBuilder,FormGroup,Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,14 +17,14 @@ import { Estado } from '../../interfaces/estado';
 export class DialogoInsertarEditarEstado implements OnInit{
 
   formEstado:FormGroup;
-  tituloFormulario:string = "Nuevo"
-  tituloBoton:string = "Editar"
+  tituloFormulario:string = "Editar"
+  tituloBoton:string = "Actualizar"
 
 
   constructor(private dialogoReferencia:MatDialogRef<DialogoInsertarEditarEstado>,
     private fb:FormBuilder,
     private snackBar:MatSnackBar,
-    private estadoServicio:EstadoService
+    private estadoServicio:EstadoService,
     @Inject(MAT_DIALOG_DATA) public dataEditarEstado: Estado
   ){
 
@@ -35,6 +35,16 @@ export class DialogoInsertarEditarEstado implements OnInit{
     })
   }
   ngOnInit(): void {
+    if (this.dataEditarEstado) {
+      this.formEstado.patchValue({
+        id:this.dataEditarEstado.id||0,
+        nombre:this.dataEditarEstado.nombre,
+        descripcion:this.dataEditarEstado.descripcion,
+        activo:this.dataEditarEstado.activo
+      })
+      this.tituloFormulario = "Editar";
+      this.tituloBoton = "Actualizar";
+    }
   }
 
   agregarInsertarEstado(){
